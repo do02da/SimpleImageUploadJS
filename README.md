@@ -1,6 +1,6 @@
 # SimpleImageUploadJS
 ***
-## Demo
+## [Demo](https://wellcom8.github.io/SimpleImageUploadJS/demo/index.html)
 ```html
 <!DOCTYPE html>
 <html>
