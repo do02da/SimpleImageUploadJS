@@ -1,14 +1,19 @@
 class SimpleImageUpload {
+    // Options
     img_preview = document.querySelector("#preview");   // 이미지 미리보기 Element
     img_input = document.querySelector("#image-input"); // 이미지 파일 Input Element
 
-    file_size_limit = 1024 * 1024 * 10;                 // 파일 용량 제한 (default : 10MB)
+    file_size_limit = 1024 * 1024 * 10;                 // 파일 용량 제한
     file_num_limit = 2;                                 // 파일 개수 제한
-    allow_filetype = ['jpg', ];
+    allow_filetype = ['jpg', 'jpeg', 'png', 'gif'];     // 파일 확장자 제한
 
     preview_width = "100px";                            // 이미지 미리보기 너비
     preview_height = "100px";                           // 이미지 미리보기 높이
-    
+    // Options End
+
+    _imageIdx = 0;
+    tmpImageFiles = {};
+
     constructor(options) {
         if (options !== undefined) {
             if (options.img_preview !== undefined) this.file_size_limit = document.querySelector(options.img_preview);
@@ -30,11 +35,11 @@ class SimpleImageUpload {
                 if (this.fileNumValidation(e.target.files.length)) {
                     for (let i = 0; i < e.target.files.length; i++) {
                         let file = e.target.files[i];
-    
-                        console.log(file.type);
+                        
                         // 파일 크기, 확장자 유효성 검사
                         if (this.fileSizeValidation(file) && this.fileExtValidation(file)) {
-                            this.appendToPreview(file);
+                            this.tmpImageFiles[this._imageIdx] = file;
+                            this.appendToPreview(file, this._imageIdx++);
                         }
                     }
 
@@ -86,19 +91,31 @@ class SimpleImageUpload {
 
     /**
      * 파일 확장자 유효성 검사
-     * @see
-     * @param {*} file 
+     * @see     allow_filetype
+     * @param   {*} file 
      * @returns 
      */
     fileExtValidation(file) {
-        return true;
+        let ext = file.name.split('.').pop().toLowerCase();
+
+        if (this.allow_filetype.includes(ext)) {
+            return true;
+        } else {
+            alert(this.allow_filetype + " 파일만 업로드 가능합니다.");
+
+            this.img_input.value = "";
+
+            return false;
+        }
+        
     }
 
     /**
      * 사용자가 추가한 이미지를 Preview에 추가
      * @param {*} file 
+     * @param {*} _imageIdx 
      */
-    appendToPreview(file) {
+    appendToPreview(file, _imageIdx) {
         const reader = new FileReader();
 
         let that = this;
@@ -118,6 +135,7 @@ class SimpleImageUpload {
             let imgDelBtn = document.createElement('button');
             imgDelBtn.className = 'img-delete-btn';
             imgDelBtn.textContent = 'X';
+            imgDelBtn.dataset.imgIdx = _imageIdx;
             
             // 이미지 삭제 버튼 클릭 이벤트 등록
             imgDelBtn.addEventListener("click", (e) => that.imageDelete(e));
@@ -133,6 +151,10 @@ class SimpleImageUpload {
     }
 
     imageDelete(e) {
+        let imgIdx = e.target.dataset.imgIdx;
+
+        delete this.tmpImageFiles[imgIdx];
+
         e.target.parentNode.remove();
     }
 }
