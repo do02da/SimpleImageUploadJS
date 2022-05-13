@@ -33,13 +33,19 @@
 | img_input | #image-input |  이미지 파일 Input Element |
 | file_size_limit | 1024 * 1024 * 10 (10MB) | 파일 용량 제한 |
 | file_num_limit | 2 | 파일 개수 제한 |
-| allow_filetype |  | 파일 확장자 제한 |
+| allow_filetype | ['jpg', 'jpeg', 'png', 'gif'] | 파일 확장자 제한 |
 | preview_width | 100px | 이미지 미리보기 너비 |
 | preview_height | 100px | 이미지 미리보기 높이 |
 
 ### Usage
 ``` javascript
 let simpleImageUpload = new SimpleImageUpload({
-    img_preview: "#image-preview",
+                img_preview: "#img-preview",
+                img_input: "#img-input",
+                file_size_limit: 1024 * 1024 * 1,
+                file_num_limit: 2,
+                allow_filetype: ['jpg'],
+                preview_width: "150px",
+                preview_height: "150px",
 });
 ```

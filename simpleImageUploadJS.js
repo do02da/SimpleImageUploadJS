@@ -16,10 +16,11 @@ class SimpleImageUpload {
 
     constructor(options) {
         if (options !== undefined) {
-            if (options.img_preview !== undefined) this.file_size_limit = document.querySelector(options.img_preview);
-            if (options.img_input !== undefined) this.file_size_limit = document.querySelector(options.img_input);
+            if (options.img_preview !== undefined) this.img_preview = document.querySelector(options.img_preview);
+            if (options.img_input !== undefined) this.img_input = document.querySelector(options.img_input);
             if (options.file_size_limit !== undefined) this.file_size_limit = options.file_size_limit;
             if (options.file_num_limit !== undefined) this.file_num_limit = options.file_num_limit;
+            if (options.allow_filetype !== undefined) this.allow_filetype = options.allow_filetype;
             if (options.preview_width !== undefined) this.preview_width = options.preview_width;
             if (options.preview_height !== undefined) this.preview_height = options.preview_height;
         }
