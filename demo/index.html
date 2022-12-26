@@ -8,16 +8,26 @@
 
         <link rel="stylesheet" href="../simpleImageUploadJS.css" >
     <body>
-        <div id="preview">
+        <div id="img-preview">
 
         </div>
 
-        <input id="image-input" type="file" accept="image/*" multiple>
+        <form id="frm">
+            <input id="img-input" type="file" accept="image/*" multiple>
+
+            <input type="submit" id="submit-btn">
+        </form>
+        
         
         <script src="../simpleImageUploadJS.js"></script>
         <script>            
             let simpleImageUpload = new SimpleImageUpload({
-
+                img_preview: "#img-preview",
+                img_input: "#img-input",
+                file_size_limit: 1024 * 1024 * 1,
+                file_num_limit: 2,
+                preview_width: "150px",
+                preview_height: "150px",
             });
         </script>
     </body>

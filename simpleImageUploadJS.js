@@ -9,6 +9,9 @@ class SimpleImageUpload {
 
     preview_width = "100px";                            // 이미지 미리보기 너비
     preview_height = "100px";                           // 이미지 미리보기 높이
+
+    form = new FormData(document.getElementById("frm"));
+    submit_btn = document.querySelector("#submit-btn");
     // Options End
 
     _imageIdx = 0;
@@ -25,7 +28,8 @@ class SimpleImageUpload {
             if (options.preview_height !== undefined) this.preview_height = options.preview_height;
         }
 
-        this.imgInputEvnet();
+        this.imgInputEvnet();   // 파일 선택 이벤트 등록
+        this.submitBtnEvent();  // Form 제출 이벤트 등록
     }
 
     imgInputEvnet() {
@@ -50,6 +54,18 @@ class SimpleImageUpload {
         } else {
             alert("ERROR : 이미지 Input이 지정되지 않았습니다.")
         }
+    }
+
+    submitBtnEvent() {
+        if (this.submit_btn !== null) {
+            this.submit_btn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                for (let key in this.tmpImageFiles) {
+                    this.form.append("attach_image", this.tmpImageFiles[key]);
+                }
+            })
+        } 
     }
 
     /**
@@ -108,7 +124,6 @@ class SimpleImageUpload {
 
             return false;
         }
-        
     }
 
     /**
